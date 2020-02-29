@@ -4,11 +4,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>layout 后台大布局 - Layui</title>
   <link rel="stylesheet" href="<%=basePath%>Static/css/layui.css">
-  <script src="<%=basePath%>Static/js/hm.js"></script></head>
+  <script src="<%=basePath%>Static/js/jquery-3.4.1.min.js"></script>
+  <script src="<%=basePath%>Static/js/hm.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -45,32 +46,8 @@
   
   <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
-      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-     <!--  <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-        <li class="layui-nav-item layui-nav-itemed">
-          <a class="" href="javascript:;">所有商品</a>
-          <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
-            <dd><a href="javascript:;">列表三</a></dd>
-            <dd><a href="">超链接</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item">
-          <a href="javascript:;">解决方案</a>
-          <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
-            <dd><a href="">超链接</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">发布商品</a></li>
-      </ul> -->
-      
-      
-      <ul class="layui-nav layui-nav-tree layui-inline" style="margin-right: 10px;" lay-filter="demo">
-		  <li class="layui-nav-item ">
+      <ul id ="roadPanel" class="layui-nav layui-nav-tree layui-inline" style="margin-right: 10px;" lay-filter="demo">
+		  <!-- <li class="layui-nav-item ">
 		    <a href="javascript:;">一级</a>
 		    <dl class="layui-nav-child">
 		      <dd>
@@ -81,8 +58,8 @@
 			  </dd>
 		      <dd><a href="javascript:;">二级</a></dd>
 		    </dl>
-		  </li>
-		  <li class="layui-nav-item">
+		  </li> -->
+		  <!-- <li class="layui-nav-item">
 		    <a href="javascript:;">解决方案</a>
 		    <dl class="layui-nav-child">
 		      <dd><a href="">移动模块</a></dd>
@@ -91,9 +68,9 @@
 		      <dd><a href="">后台模版</a></dd>
 		      <dd><a href="">电商平台</a></dd>
 		    </dl>
-		  </li>
-		  <li class="layui-nav-item"><a href="">云市场</a></li>
-		  <li class="layui-nav-item"><a href="">社区</a></li>
+		  </li> -->
+		  <!-- <li class="layui-nav-item"><a href="">云市场</a></li> -->
+		  <!-- <li class="layui-nav-item"><a href="">社区</a></li> -->
 	 </ul>
       
       
@@ -101,10 +78,14 @@
   </div>
   <div class="layui-body">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;">
-    	
-    	内容主体区域
-    	
+    <div style="padding: 15px;" >
+	    <span class="layui-breadcrumb" l id="nav1">
+		  <a href="/" id="tab1">首页</a>
+		  <a href="/demo/">演示</a>
+		  <a><cite>导航元素</cite></a>
+		</span>
+    	<div style="width: 100%;height: 100%;" id="mainBody">
+    	</div>
     </div>
   </div>
   <div class="layui-footer">
@@ -125,4 +106,54 @@ layui.use('element', function(){
 });
 </script> -->
 </body>
+<script type="text/javascript">
+$(document).ready(function(){
+	/* $("#roadPanel").html('<tr><td>1</td></tr>'); */
+	$("#roadPanel").append(<%=request.getAttribute("roadPanel")%>);
+});
+var sp=null;
+function query(url){
+	 $.ajax({
+         url:"<%=basePath%>/query",
+         type:"POST",
+         data:{ url: url},
+         contentType :"application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data){
+  			$("#mainBody").html(data);
+         }
+	});
+
+	setTab(url);
+}
+
+function setTab(url){
+	var tab="<span class=\"layui-badge-dot layui-bg-blue\"></span>";
+	sp=url.split("/");
+	//console.log(sp);
+	for(var i=2;i<sp.length;i++){
+		if(i==sp.length-1){
+			tab+="<a  onclick='getTab("+i+")' href='javascript:;'>"+sp[i]+"</a>"
+		}else{
+			tab+="<a  onclick='getTab("+i+")' href='javascript:;'>"+sp[i]+"&nbsp;/&nbsp;</a>"
+		}
+	}
+	$("#nav1").html(tab);
+	  /* <a href="/" id="tab1">首页</a>
+	  <a href="/demo/">演示</a>
+	  <a><cite>导航元素</cite></a> */
+}
+
+function getTab(i){
+	console.log(i);
+	console.log(sp);
+	var url=sp[0];
+	for(var j=1;j<=i;j++){
+		url+="/";
+		url+=sp[j];
+	}
+	console.log(url);
+	query(url);
+}
+
+</script>
 </html>

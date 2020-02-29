@@ -22,7 +22,7 @@ public class Util {
         if(files!=null&&files.length>0){
             for(File file:files){
                 if(file.isDirectory()){
-//                	System.out.println(file);
+                	System.out.println(file);
                 	list.add(file);
                 }
                 else{
@@ -103,6 +103,17 @@ public class Util {
     public static void main(String[] args) {
     	File file = new File("D:/1.华高工作整理");
     	try {
+			List<File> list = listDirectory(file);
+			for (File file2 : list) {
+				System.out.println(file2.getName());
+				
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	/*File file = new File("D:/1.华高工作整理");
+    	try {
 			Map<String, List<File>> map = listDirectoryView(file);
 			System.out.println(map);
 			List list=map.get(Common.Directory);
@@ -116,7 +127,9 @@ public class Util {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+    	
+    	
     	/**
     	File file = new File("D:/1.华高工作整理");
     	try {
