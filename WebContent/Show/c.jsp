@@ -78,18 +78,40 @@
   </div>
   <div class="layui-body">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;" >
-	    <span class="layui-breadcrumb" l id="nav1">
+    <span class="layui-breadcrumb" l id="nav1" >
 		  <a href="/" id="tab1">首页</a>
-		  <a href="/demo/">演示</a>
-		  <a><cite>导航元素</cite></a>
 		</span>
+    <div style="padding: 15px;" >
+	    
     	<div style="width: 100%;height: 100%;" id="mainBody">
     	</div>
     </div>
   </div>
   <div class="layui-footer">
+   <div class="layui-row">
+    <div class="layui-col-xs6">
+      12
+    </div>
+    <div class="layui-col-xs6">
+    	<ul class="layui-nav" lay-filter="">
+		  <li class="layui-nav-item">
+			<input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+		  </li>
+		  <li class="layui-nav-item layui-this">
+		  	<button type="button" class="layui-btn">按钮一</button>
+		  </li>
+    	</ul>
+			 		 
+    </div>
+  </div>
     <!-- 底部固定区域 -->
+    <!-- <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item">
+		<input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+	  </li>
+      <li class="layui-nav-item"><a href="">查找</a></li>
+    </ul> -->
+    
   </div>
 </div>
 <script src="<%=basePath%>Static/js/layui.all.js"></script>
@@ -155,5 +177,22 @@ function getTab(i){
 	query(url);
 }
 
+function download(url){
+	console.log(url);
+	 //var formm=function(){
+	        var form=$("<form>");//定义一个form表单
+	        form.attr("style","display:none");
+	        form.attr("target","");
+	        form.attr("method","post");
+	        form.attr("action","<%=basePath%>/download");
+	        var input1=$("<input>");
+	        input1.attr("type","hidden");
+	        input1.attr("name","url");
+	        input1.attr("value",url);
+	        $("body").append(form);//将表单放置在web中
+	        form.append(input1);
+	        form.submit();//表单提交
+	   // }
+}
 </script>
 </html>

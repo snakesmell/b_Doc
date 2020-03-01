@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.doc.a.Common;
-import com.doc.a.Util;
+import com.doc.a.MineUtil;
 
 /**
  * Servlet implementation class begin
@@ -43,9 +43,10 @@ public class query extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		String url=request.getParameter("url");
 		System.out.println(url);
-		Map<String, List<File>> map = Util.listDirectoryView(new File(url));
+		Map<String, List<File>> map = MineUtil.listDirectoryView(new File(url));
 		List<File> dir = map.get(Common.Directory);
 		List<File> file = map.get(Common.File);
 		StringBuilder html=new StringBuilder();
@@ -54,7 +55,7 @@ public class query extends HttpServlet {
 			html.append("<button type=\"button\" onclick=query(\""+url+"/"+d.getName()+"\") style=\"margin-top: 5px;\" class=\"layui-btn layui-btn-warm\">"+d.getName()+"</button>");
 		}
 		for (File f : file) {
-			html.append("<button type=\"button\" style=\"margin-top: 5px;\" class=\"layui-btn layui-btn-primary\">"+f.getName()+"</button>");
+			html.append("<button type=\"button\" onclick=download(\""+url+"/"+f.getName()+"\") style=\"margin-top: 5px;\" class=\"layui-btn layui-btn-primary\">"+f.getName()+"</button>");
 		}
 	    response.setCharacterEncoding("utf-8");  
 		PrintWriter writer = response.getWriter();
