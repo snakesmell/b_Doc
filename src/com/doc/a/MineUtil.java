@@ -79,7 +79,7 @@ public class MineUtil {
      * @param dir
      * @throws IOException
      */
-    public static void listDirectoryAll(File dir,String fileName,List<String> list)throws IOException {
+    public static void listDirectoryAll(File dir,String fileName,List<Map<String,String>> list)throws IOException {
         if(!dir.exists())
             throw new IllegalArgumentException("目录："+dir+"不存在.");
         if(!dir.isDirectory()){
@@ -95,6 +95,7 @@ public class MineUtil {
             //System.out.println(file);
 //        List<File> list=new ArrayList<File>();
         if(files!=null&&files.length>0){
+        	Map<String,String> map=new HashMap<String,String>();
             for(File file:files){
                 if(file.isDirectory()){
 //                	list.add(file);
@@ -103,10 +104,12 @@ public class MineUtil {
                 	listDirectoryAll(file,fileName,list);
                 }
                 else{
-                	
+                	map.put(Common.FILENAME, file.getName());
+                	map.put(Common.FILEPATH, file.getAbsolutePath());
 //                	if(file.getName().indexOf(fileName)!=-1){
 //                		
 //                	}
+                	System.out.println(file.getName());
                     System.out.println(file.getAbsolutePath());
                 }
             }
@@ -114,20 +117,13 @@ public class MineUtil {
     }
     
     public static void main(String[] args) {
-    	List<Integer> list=new ArrayList<Integer>();
-    	for(int i=0;i<4000;i++){
-    		list.add(i);
-    	}
-    	System.out.println("begin");
-    	
-    	System.out.println(list.indexOf(3210+12));
-    	/*String path="D://1.华高工作整理";
+    	String path="D://1.华高工作整理";
     	try {
 			listDirectoryAll(new File(path),null,null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
     
     
