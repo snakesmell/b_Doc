@@ -16,6 +16,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.doc.c.Indexer;
+
 public class MineUtil {
 	/*
      * 查找一级目录文件夹文件
@@ -31,7 +33,7 @@ public class MineUtil {
         if(files!=null&&files.length>0){
             for(File file:files){
                 if(file.isDirectory()){
-                	System.out.println(file);
+//                	System.out.println(file);
                 	list.add(file);
                 }
                 else{
@@ -79,7 +81,7 @@ public class MineUtil {
      * @param dir
      * @throws IOException
      */
-    public static void listDirectoryAll(File dir,String fileName,List<Map<String,String>> list)throws IOException {
+    public static void listDirectoryAll(File dir,List<String> listFileName,List<String> listFilePath)throws IOException {
         if(!dir.exists())
             throw new IllegalArgumentException("目录："+dir+"不存在.");
         if(!dir.isDirectory()){
@@ -95,32 +97,44 @@ public class MineUtil {
             //System.out.println(file);
 //        List<File> list=new ArrayList<File>();
         if(files!=null&&files.length>0){
-        	Map<String,String> map=new HashMap<String,String>();
+//        	Map<String,String> map=new HashMap<String,String>();
             for(File file:files){
                 if(file.isDirectory()){
 //                	list.add(file);
 //                	System.out.println(file);
                     //递归
-                	listDirectoryAll(file,fileName,list);
+                	listDirectoryAll(file,listFileName,listFilePath);
                 }
                 else{
-                	map.put(Common.FILENAME, file.getName());
-                	map.put(Common.FILEPATH, file.getAbsolutePath());
+                	listFileName.add(file.getName());
+                	listFilePath.add(file.getAbsolutePath());
+//                	map.put(Common.FILENAME, file.getName());
+//                	map.put(Common.FILEPATH, file.getAbsolutePath());
 //                	if(file.getName().indexOf(fileName)!=-1){
 //                		
 //                	}
-                	System.out.println(file.getName());
-                    System.out.println(file.getAbsolutePath());
+//                	System.out.println(file.getName());
+//                    System.out.println(file.getAbsolutePath());
                 }
             }
         }
     }
     
     public static void main(String[] args) {
-    	String path="D://1.华高工作整理";
+//    	String path="D://1.华高工作整理";
+    	String path="D://flyedt";
     	try {
-			listDirectoryAll(new File(path),null,null);
-		} catch (IOException e) {
+    		List<String> listFileName=new ArrayList<String>();
+        	List<String> listFilePath=new ArrayList<String>();
+			listDirectoryAll(new File(path),listFileName,listFilePath);
+			System.out.println("listFileName:"+listFileName);
+			System.out.println("listFilePath:"+listFilePath);
+			
+			Object[] x1 = listFileName.toArray();
+			Object[] x2 = listFilePath.toArray();
+			new Indexer().index("D:\\lucene6",x1,x2);
+			
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

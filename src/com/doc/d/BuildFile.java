@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.doc.a.Common;
-import com.doc.a.MineUtil;
 
 public class BuildFile implements Runnable{
 
@@ -17,9 +16,9 @@ public class BuildFile implements Runnable{
 		File file=new File("D:/lucene6");
 		List<Map<String,String>> list =new ArrayList<Map<String,String>>();
 		try {
-			MineUtil.listDirectoryAll(file, null, list);
+//			MineUtil.listDirectoryAll(file, null, list);
 			System.out.println(list);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
@@ -29,7 +28,7 @@ public class BuildFile implements Runnable{
 		File file=new File("D:/lucene6");
 		List<Map<String,String>> list =new ArrayList<Map<String,String>>();
 		try {
-			MineUtil.listDirectoryAll(file, null, list);
+//			MineUtil.listDirectoryAll(file, null, list);
 			
 			for(int i=0;i<list.size();i++){
 				Map<String, String> map = list.get(i);
@@ -37,7 +36,7 @@ public class BuildFile implements Runnable{
 				map.get(Common.FILEPATH);
 			}
 			System.out.println(list);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};

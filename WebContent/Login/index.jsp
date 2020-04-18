@@ -20,9 +20,9 @@
             后台登录系统
         </h1>
         <form action="<%=basePath%>/begin" method="post">
-            <input type="text" value="用户名" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '用户名';}"
+            <input type="text" name="url" value="c:/" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '目录';}"
                    required="">
-            <input type="password" value="Password" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}"
+            <input type="password" name="password" value="admin123" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}"
                    required="">
             <input type="submit" value="登录">
         </form>

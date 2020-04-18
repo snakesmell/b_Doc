@@ -14,8 +14,9 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo">layui 后台布局</div>
+    <div class="layui-logo">文件查阅平台</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
+    <!-- 暂时用不到20200418 
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item"><a href="">控制台</a></li>
       <li class="layui-nav-item"><a href="">商品管理</a></li>
@@ -28,19 +29,22 @@
           <dd><a href="">授权管理</a></dd>
         </dl>
       </li>
-    </ul>
+    </ul> 
+            暂时用不到20200418-->
     <ul class="layui-nav layui-layout-right">
-      <li class="layui-nav-item">
+     <!-- 暂时用不到20200418  
+     <li class="layui-nav-item">
         <a href="javascript:;">
           <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          贤心
+         	 贤心
         </a>
         <dl class="layui-nav-child">
           <dd><a href="">基本资料</a></dd>
           <dd><a href="">安全设置</a></dd>
         </dl>
-      </li>
-      <li class="layui-nav-item"><a href="">退了</a></li>
+      </li> 
+                 暂时用不到20200418-->
+      <li class="layui-nav-item"><a href="<%=basePath%>/begin">退出</a></li>
     </ul>
   </div>
   
@@ -90,7 +94,7 @@
   <div class="layui-footer">
    <div class="layui-row">
     <div class="layui-col-xs6">
-      12
+      <!-- 12 -->
     </div>
     <div class="layui-col-xs6">
     	<ul class="layui-nav" lay-filter="">
@@ -101,7 +105,6 @@
 		  	<button type="button" class="layui-btn">按钮一</button>
 		  </li>
     	</ul>
-			 		 
     </div>
   </div>
     <!-- 底部固定区域 -->

@@ -21,20 +21,22 @@ import org.apache.lucene.search.highlight.SimpleSpanFragmenter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import com.doc.a.Common;
+
 public class Searcher {
 
 	public static void search(String indexDir,String q)throws Exception{
 		Directory dir = FSDirectory.open(Paths.get(indexDir));
 		IndexReader reader = DirectoryReader.open(dir);
 		IndexSearcher is = new IndexSearcher(reader);
-		// Analyzer analyzer = new StandardAnalyzer(); // ±ê×¼·Ö´ÊÆ÷
+		// Analyzer analyzer = new StandardAnalyzer(); // æ ‡å‡†åˆ†è¯å™¨
 		SmartChineseAnalyzer analyzer = new SmartChineseAnalyzer();
 		QueryParser parser = new QueryParser("desc", analyzer);
 		Query query = parser.parse(q);
 		long start = System.currentTimeMillis();
 		TopDocs hits = is.search(query, 10);
 		long end = System.currentTimeMillis();
-		System.out.println("Æ¥Åä "+q+" £¬×Ü¹²»¨·Ñ"+(end-start)+"ºÁÃë"+"²éÑ¯µ½"+hits.totalHits+"¸ö¼ÇÂ¼");
+		System.out.println("åŒ¹é… "+q+" ï¼Œæ€»å…±èŠ±è´¹"+(end-start)+"æ¯«ç§’"+"æŸ¥è¯¢åˆ°"+hits.totalHits+"ä¸ªè®°å½•");
 		
 //		QueryScorer scorer = new QueryScorer(query);
 //		Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
@@ -57,12 +59,39 @@ public class Searcher {
 	
 	public static void main(String[] args) {
 		String indexDir = "D:\\lucene6";
-		String q = "³¤½­ÓÎ";
+		String q = "USER-MA";
 		try {
-			search(indexDir,q);
+			query(indexDir,q);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public static void query(String indexDir,String q)throws Exception{
+		Directory dir = FSDirectory.open(Paths.get(indexDir));
+		IndexReader reader = DirectoryReader.open(dir);
+		IndexSearcher is = new IndexSearcher(reader);
+		// Analyzer analyzer = new StandardAnalyzer(); // æ ‡å‡†åˆ†è¯å™¨
+		SmartChineseAnalyzer analyzer = new SmartChineseAnalyzer();
+		QueryParser parser = new QueryParser(Common.FILENAME, analyzer);
+		Query query = parser.parse(q);
+		long start = System.currentTimeMillis();
+		TopDocs hits = is.search(query, 10);
+		long end = System.currentTimeMillis();
+		System.out.println("åŒ¹é… "+q+" ï¼Œæ€»å…±èŠ±è´¹"+(end-start)+"æ¯«ç§’"+"æŸ¥è¯¢åˆ°"+hits.totalHits+"ä¸ªè®°å½•");
+		
+//		QueryScorer scorer = new QueryScorer(query);
+//		Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
+//		SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<b><font color = 'red'>","</font></b>");
+//		Highlighter highlighter = new Highlighter(simpleHTMLFormatter, scorer);
+//		highlighter.setTextFragmenter(fragmenter);
+		for(ScoreDoc scoreDoc:hits.scoreDocs){
+			Document doc = is.doc(scoreDoc.doc);
+			System.out.println(doc.get(Common.FILENAME));
+			System.out.println(doc.get(Common.FILEPATH));
+		}
+		reader.close();
 	}
 }
