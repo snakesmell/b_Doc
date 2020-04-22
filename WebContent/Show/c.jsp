@@ -217,7 +217,7 @@ function download(url){
 function judgeImg(url){
 	//var url="d://用户目录/我的图片/2019-12-19-13-46-13-196-1384_format_f.JPEG";
 	var ext=url.split(".");
-	var ext_end=ext[1].toLowerCase();
+	var ext_end=ext[ext.length-1].toLowerCase();
 	//console.log(ext_end);
 	var pattern="bmp,jpg,png,gif,jpeg,png";
 	var z=pattern.indexOf(ext_end,0);
@@ -260,29 +260,31 @@ function queryload(url){
 		    }
 		  });
 	 }
-	 return;
-	
-	return;
-	//console.log(url);
-	 //var formm=function(){
-	        var form=$("<form>");//定义一个form表单
-	        form.attr("style","display:none");
-	        form.attr("target","");
-	        form.attr("method","post");
-	        form.attr("action","<%=basePath%>/download");
-	        var input1=$("<input>");
-	        input1.attr("type","hidden");
-	        input1.attr("name","url");
-	        input1.attr("value",url);
-	        var input2=$("<input>");
-	        input2.attr("type","hidden");
-	        input2.attr("name","flag");
-	        input2.attr("value",1);
-	        $("body").append(form);//将表单放置在web中
-	        form.append(input1);
-	        form.append(input2);
-	        form.submit();//表单提交
-	   // }
+	if(!judgeImg(url)){
+		 layer.open({
+			    type: 2 //此处以iframe举例
+			    ,title: '当你选择该窗体时，即会在最顶端'
+			    ,area: ['390px', '260px']
+			    ,shade: 0
+			    ,maxmin: true
+			    ,offset: [ //为了演示，随机坐标
+			      ($(window).height()/2)
+			      ,($(window).width()/2)
+			    ] 
+			    ,content: '<%=basePath%>/show?url='+url
+			    ,btn: ['继续弹出', '全部关闭'] //只是为了演示
+			    ,yes: function(){
+			      $(that).click(); 
+			    }
+			    ,btn2: function(){
+			      layer.closeAll();
+			    }
+			    ,zIndex: layer.zIndex //重点1
+			    ,success: function(layero){
+			      layer.setTop(layero); //重点2
+			    }
+			  }); 
+	 }
 }
 </script>
 </html>
