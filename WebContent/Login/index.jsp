@@ -20,7 +20,7 @@
             后台登录系统
         </h1>
         <form action="<%=basePath%>/begin" method="post">
-            <input type="text" name="url" value="c:/" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '目录';}"
+            <input type="text" name="username" value="11" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '用户名';}"
                    required="">
             <input type="password" name="password" value="admin123" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}"
                    required="">

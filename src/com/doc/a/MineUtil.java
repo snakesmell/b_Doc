@@ -176,6 +176,8 @@ public class MineUtil {
             // 取得文件名。
             String formFileName = file.getName();
             
+            
+            /////////////////////////////////////////////////文件下载//////////////////////////////////////////////////
             String userAgent = request.getHeader("User-Agent");  
             // 针对IE或者以IE为内核的浏览器：  
             if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
@@ -183,10 +185,8 @@ public class MineUtil {
             }else{
             	formFileName = new String(formFileName.getBytes("UTF-8"), "ISO-8859-1");
             }
-          
             // 取得文件的后缀名。
             String ext = formFileName.substring(formFileName.lastIndexOf(".") + 1).toUpperCase();
-
             // 以流的形式下载文件。
             InputStream fis = new BufferedInputStream(new FileInputStream(path));
             byte[] buffer = new byte[fis.available()];
@@ -205,10 +205,34 @@ public class MineUtil {
             toClient.write(buffer);
             toClient.flush();
             toClient.close();
+            /////////////////////////////////////////////////文件下载//////////////////////////////////////////////////
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         return response;
+    }
+    
+    public void download(){
+    	
+    }
+    public static void ShowImg(HttpServletRequest request,String path, HttpServletResponse response){
+    	FileInputStream in;
+		response.setContentType("application/octet-stream;charset=UTF-8");
+		try {
+			//图片读取路径
+			in=new FileInputStream(path);
+			int i=in.available();
+			byte[]data=new byte[i];
+			in.read(data);
+			in.close();
+			//写图片
+			OutputStream outputStream=new BufferedOutputStream(response.getOutputStream());
+			outputStream.write(data);
+			outputStream.flush();
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 }

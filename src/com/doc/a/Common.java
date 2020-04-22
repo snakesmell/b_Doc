@@ -7,5 +7,6 @@ public class Common {
 	public static final String FILEPATH="FILEPATH";
 	public static final String LucencePath="lucence";
 	public static final String LucenceUpdateTime="update";
+	public static final String TypeDownload="0";//0下载文件标志
 }
 

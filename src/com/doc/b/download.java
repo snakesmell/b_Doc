@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.doc.a.Common;
 import com.doc.a.MineUtil;
 
 /**
@@ -30,7 +31,12 @@ public class download extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.setCharacterEncoding("utf-8");  
+		String url=request.getParameter("url");
+		//System.out.println(url);
+		String flag=request.getParameter("flag");
+		MineUtil.ShowImg(request,url, response);
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -40,9 +46,13 @@ public class download extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");  
 		String url=request.getParameter("url");
+		String flag=request.getParameter("flag");
 		try {
-			MineUtil.download(request,url, response);
-//			MineUtil.downLoad(url, response, true);
+			if(Common.TypeDownload.equals(flag)){//下载文件
+				MineUtil.download(request,url, response);
+			}else{//查看文件
+				MineUtil.ShowImg(request,url, response);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

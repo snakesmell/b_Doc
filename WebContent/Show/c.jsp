@@ -8,18 +8,19 @@
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>layout 后台大布局 - Layui</title>
   <link rel="stylesheet" href="<%=basePath%>Static/css/layui.css">
+  <link rel="stylesheet" href="<%=basePath%>Static/css/layer.css">
   <script src="<%=basePath%>Static/js/jquery-3.4.1.min.js"></script>
   <script src="<%=basePath%>Static/js/hm.js"></script>
+  <script src="<%=basePath%>Static/js/layer.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
     <div class="layui-logo">文件查阅平台</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
-    <!-- 暂时用不到20200418 
     <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a href="">控制台</a></li>
-      <li class="layui-nav-item"><a href="">商品管理</a></li>
+      <li class="layui-nav-item"><a onclick="page()" href="javascript:;">查询</a></li>
+      <li class="layui-nav-item"><input placeholder="路径_例 c:/" value="c:/" id="pageUrl"></li>
       <li class="layui-nav-item"><a href="">用户</a></li>
       <li class="layui-nav-item">
         <a href="javascript:;">其它系统</a>
@@ -30,7 +31,6 @@
         </dl>
       </li>
     </ul> 
-            暂时用不到20200418-->
     <ul class="layui-nav layui-layout-right">
      <!-- 暂时用不到20200418  
      <li class="layui-nav-item">
@@ -133,10 +133,21 @@ layui.use('element', function(){
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-	/* $("#roadPanel").html('<tr><td>1</td></tr>'); */
-	$("#roadPanel").append(<%=request.getAttribute("roadPanel")%>);
 });
 var sp=null;
+//left panel
+function page(url){
+	 $.ajax({
+         url:"<%=basePath%>/page",
+         type:"POST",
+         data:{ url: $("#pageUrl").val()},
+         contentType :"application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data){
+  			$("#roadPanel").html(data);
+         }
+	});
+}
+//right panel
 function query(url){
 	 $.ajax({
          url:"<%=basePath%>/query",
@@ -150,16 +161,16 @@ function query(url){
 
 	setTab(url);
 }
-
+//导航条
 function setTab(url){
 	var tab="<span class=\"layui-badge-dot layui-bg-blue\"></span>";
 	sp=url.split("/");
 	//console.log(sp);
 	for(var i=2;i<sp.length;i++){
 		if(i==sp.length-1){
-			tab+="<a  onclick='getTab("+i+")' href='javascript:;'>"+sp[i]+"</a>"
+			tab+="<a style=\"font-size: 16px;\" onclick='getTab("+i+")' href='javascript:;'>"+sp[i]+"</a>"
 		}else{
-			tab+="<a  onclick='getTab("+i+")' href='javascript:;'>"+sp[i]+"&nbsp;/&nbsp;</a>"
+			tab+="<a style=\"font-size: 16px;\" onclick='getTab("+i+")' href='javascript:;'>"+sp[i]+"&nbsp;/&nbsp;</a>"
 		}
 	}
 	$("#nav1").html(tab);
@@ -169,19 +180,19 @@ function setTab(url){
 }
 
 function getTab(i){
-	console.log(i);
-	console.log(sp);
+	//console.log(i);
+	//console.log(sp);
 	var url=sp[0];
 	for(var j=1;j<=i;j++){
 		url+="/";
 		url+=sp[j];
 	}
-	console.log(url);
+	//console.log(url);
 	query(url);
 }
-
+//下载
 function download(url){
-	console.log(url);
+	//console.log(url);
 	 //var formm=function(){
 	        var form=$("<form>");//定义一个form表单
 	        form.attr("style","display:none");
@@ -192,8 +203,84 @@ function download(url){
 	        input1.attr("type","hidden");
 	        input1.attr("name","url");
 	        input1.attr("value",url);
+	        var input2=$("<input>");
+	        input2.attr("type","hidden");
+	        input2.attr("name","flag");
+	        input2.attr("value",0);
 	        $("body").append(form);//将表单放置在web中
 	        form.append(input1);
+	        form.append(input2);
+	        form.submit();//表单提交
+	   // }
+}
+//判断是否是图片
+function judgeImg(url){
+	//var url="d://用户目录/我的图片/2019-12-19-13-46-13-196-1384_format_f.JPEG";
+	var ext=url.split(".");
+	var ext_end=ext[1].toLowerCase();
+	//console.log(ext_end);
+	var pattern="bmp,jpg,png,gif,jpeg,png";
+	var z=pattern.indexOf(ext_end,0);
+	//console.log(z);
+	if(z!=-1){
+		return true;
+		//console.log("success");
+	}else{
+		return false;
+		//console.log("error");
+	}
+}
+
+//查看
+function queryload(url){
+	//判断是否是图片
+	if(judgeImg(url)){
+		layer.open({
+		    type: 1 //此处以iframe举例
+		    ,title: '当你选择该窗体时，即会在最顶端'
+		    ,area: ['390px', '260px']
+		    ,shade: 0
+		    ,maxmin: true
+		    ,offset: [ //为了演示，随机坐标
+		      ($(window).height()/2)
+		      ,($(window).width()/2)
+		    ] 
+		    ,content: "<img id=\"npcImg\" width=\"100%\" height=\"100%\"/>  "
+		    ,btn: ['继续弹出', '全部关闭'] //只是为了演示
+		    ,yes: function(){
+		      $(that).click(); 
+		    }
+		    ,btn2: function(){
+		      layer.closeAll();
+		    }
+		    ,zIndex: layer.zIndex //重点1
+		    ,success: function(layero){
+		      layer.setTop(layero); //重点2
+		      $('#npcImg').attr('src','<%=basePath%>/download?url='+url);  
+		    }
+		  });
+	 }
+	 return;
+	
+	return;
+	//console.log(url);
+	 //var formm=function(){
+	        var form=$("<form>");//定义一个form表单
+	        form.attr("style","display:none");
+	        form.attr("target","");
+	        form.attr("method","post");
+	        form.attr("action","<%=basePath%>/download");
+	        var input1=$("<input>");
+	        input1.attr("type","hidden");
+	        input1.attr("name","url");
+	        input1.attr("value",url);
+	        var input2=$("<input>");
+	        input2.attr("type","hidden");
+	        input2.attr("name","flag");
+	        input2.attr("value",1);
+	        $("body").append(form);//将表单放置在web中
+	        form.append(input1);
+	        form.append(input2);
 	        form.submit();//表单提交
 	   // }
 }
