@@ -8,5 +8,11 @@ public class Common {
 	public static final String LucencePath="lucence";
 	public static final String LucenceUpdateTime="update";
 	public static final String TypeDownload="0";//0下载文件标志
+	
+	public static final String xmlRoot="root";
+	public static final String xmlLucence="lucence";
+	public static final String xmlPassword="password";
+	public static final String xmlLucenceSleep="lucenceSleep";
+	
 }
 

@@ -24,7 +24,12 @@ import org.apache.lucene.store.FSDirectory;
 import com.doc.a.Common;
 
 public class Searcher {
-
+	/**
+	 * invalid
+	 * @param indexDir
+	 * @param q
+	 * @throws Exception
+	 */
 	public static void search(String indexDir,String q)throws Exception{
 		Directory dir = FSDirectory.open(Paths.get(indexDir));
 		IndexReader reader = DirectoryReader.open(dir);
@@ -57,9 +62,13 @@ public class Searcher {
 		reader.close();
 	}
 	
+	/**
+	 * invalid
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		String indexDir = "D:\\lucene6";
-		String q = "USER-MA";
+		String q = "青岛";
 		try {
 			query(indexDir,q);
 		} catch (Exception e) {

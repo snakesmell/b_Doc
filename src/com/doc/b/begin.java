@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.doc.a.Common;
 import com.doc.a.MineUtil;
 import com.doc.c.Indexer;
 import com.doc.c.LucenceThread;
+import com.doc.fileReader.DomReader;
 
 /**
  * Servlet implementation class begin
@@ -24,6 +26,15 @@ import com.doc.c.LucenceThread;
 public class begin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	public static void main(String[] args) {
+//		for(int i=0;i<=9;i++){
+//			
+//			String ss="CREATE TABLE MRS_VEH_SNAP_2020052"+i+" AS SELECT * FROM MRS_VEH_SNAP where 1=0;";
+//			System.out.println(ss);
+//		}
+	}
+	
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -50,10 +61,11 @@ public class begin extends HttpServlet {
 		StringBuilder html=new StringBuilder();
 		try {
 			String pw=request.getParameter("password");
-			Properties prop2 = new Properties();
-			InputStream in2 = this.getClass().getClassLoader().getResourceAsStream("config.properties");
-			prop2.load(in2);
-			if(!prop2.getProperty("pw").equals(pw)){//登录失败返回主页
+//			Properties prop2 = new Properties();
+//			InputStream in2 = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+//			prop2.load(in2);
+			String xmlpw=DomReader.domReader(Common.xmlPassword);
+			if(!xmlpw.equals(pw)){//登录失败返回主页
 				 request.getRequestDispatcher("/Login").forward(request,response);
 				 return;
 			}

@@ -19,17 +19,20 @@
     <div class="layui-logo">文件查阅平台</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a onclick="page()" href="javascript:;">查询</a></li>
+      <li class="layui-nav-item"><a onclick="pageRoot()" href="javascript:;">查询文件名称</a></li>
       <li class="layui-nav-item"><input placeholder="路径_例 c:/" value="c:/" id="pageUrl"></li>
-      <li class="layui-nav-item"><a href="">用户</a></li>
-      <li class="layui-nav-item">
-        <a href="javascript:;">其它系统</a>
+      <li class="layui-nav-item"><a href="javascript:;">查询文件内容</a></li>
+      <li class="layui-nav-item"><input placeholder="请输入搜索内容..."  id="queryValue"></li>
+      <li class="layui-nav-item"><a href=""></a></li>
+      <li class="layui-nav-item"><a onclick="page()" href="javascript:;">其它路径查询</a></li>
+      <li class="layui-nav-item"><input placeholder="路径_例 c:/" value="c:/" id="pageUrl"></li>
+     <!--  <li class="layui-nav-item">
+        <a href="javascript:;">文档查找</a>
         <dl class="layui-nav-child">
-          <dd><a href="">邮件管理</a></dd>
+          <dd><a href="">搜索</a><input placeholder="路径_例 c:/" value="c:/" id="pageUrl"></dd>
           <dd><a href="">消息管理</a></dd>
-          <dd><a href="">授权管理</a></dd>
         </dl>
-      </li>
+      </li> -->
     </ul> 
     <ul class="layui-nav layui-layout-right">
      <!-- 暂时用不到20200418  
@@ -92,9 +95,9 @@
     </div>
   </div>
   <div class="layui-footer">
-   <div class="layui-row">
+  <!--  <div class="layui-row">
     <div class="layui-col-xs6">
-      <!-- 12 -->
+      12
     </div>
     <div class="layui-col-xs6">
     	<ul class="layui-nav" lay-filter="">
@@ -106,7 +109,7 @@
 		  </li>
     	</ul>
     </div>
-  </div>
+  </div> -->
     <!-- 底部固定区域 -->
     <!-- <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item">

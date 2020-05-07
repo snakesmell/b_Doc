@@ -14,6 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.POIXMLDocument;
+import org.apache.poi.POIXMLTextExtractor;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.xmlbeans.XmlException;
+
 /**
  * Servlet implementation class show
  */
@@ -35,42 +43,50 @@ public class show extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		request.setCharacterEncoding("utf-8");  
-		String url=request.getParameter("url");
-//		request.setAttribute("content", getSB(url));  
-		
-	    //读取文件中的内容  
-	    StringBuffer fileContent = new StringBuffer();  
-	    File file = new File(url);  
-	    if(file.exists()){  
-	        //Word2003  
-//	        if (suffix.equals("doc")) {  
-//	            FileInputStream fis = new FileInputStream(file);  
-//	            WordExtractor wordExtractor = new WordExtractor(fis);  
-//	            String text = wordExtractor.getText();  
-//	            fileContent.append(text);  
-//	        }  
-//	        //Word2007  
-//	        else if (suffix.equals("docx")) {  
-//	            OPCPackage opcPackage = POIXMLDocument.openPackage(uploadPath+fileName);  
-//	            POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);  
-//	            String text = extractor.getText();  
-//	            fileContent.append(text);  
-//	        }  
-	        //TXT  
-	            BufferedReader bufferReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));  
-	            //每从BufferedReader对象中读取一行字符。  
-	            String line = null;  
-	            while((line=bufferReader.readLine()) !=null){  
-	            	fileContent.append("<br>");
-	                fileContent.append(line);  
-	            }  
-	            bufferReader.close();  
-	    }else{  
-	        System.out.println("文件不存在！");  
-	    }  
-	    //输出  
-	    request.setAttribute("content", fileContent);  
-	    request.getRequestDispatcher("/Show/form.jsp").forward(request, response);  
+		//读取文件中的内容  
+		StringBuffer fileContent;
+		try {
+			String url=request.getParameter("url");
+			fileContent = new StringBuffer();  
+			File file = new File(url);  
+			if(file.exists()){  
+				String suffix = file.getName().substring(file.getName().lastIndexOf(".")+1);  
+				System.out.println(suffix);
+			    //Word2003  
+			    if (suffix.equals("doc")) {  
+			        FileInputStream fis = new FileInputStream(file);  
+			        WordExtractor wordExtractor = new WordExtractor(fis);  
+			        String text = wordExtractor.getText();  
+			        fileContent.append(text);  
+			    }  
+			    //Word2007  
+			    else if (suffix.equals("docx")) {  
+			        OPCPackage opcPackage = POIXMLDocument.openPackage(url);  
+			        POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);  
+			        String text = extractor.getText();  
+			        fileContent.append(text);  
+			    }else{
+			    //TXT  
+			        BufferedReader bufferReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));  
+			        //每从BufferedReader对象中读取一行字符。  
+			        String line = null;  
+			        while((line=bufferReader.readLine()) !=null){  
+			        	fileContent.append("<br>");
+			            fileContent.append(line);  
+			        }  
+			        bufferReader.close();  
+			        //输出  
+				    request.setAttribute("content", fileContent);  
+				    request.getRequestDispatcher("/Show/form.jsp").forward(request, response);
+			    }
+			}else{  
+			    System.out.println("文件不存在！");  
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+	  
 	}
 
 	/**
