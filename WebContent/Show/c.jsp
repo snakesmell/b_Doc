@@ -1,3 +1,4 @@
+<%@page import="com.doc.a.Common"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";%>  
@@ -16,13 +17,15 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo">文件查阅平台</div>
+    <div class="layui-logo">
+    	<label style="font-size: 26px;color: #00BFFF;cursor: pointer;" onclick="pageBegin()">文件查阅平台</label>
+    </div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a onclick="pageRoot()" href="javascript:;">查询文件名称</a></li>
-      <li class="layui-nav-item"><input placeholder="路径_例 c:/" value="c:/" id="pageUrl"></li>
-      <li class="layui-nav-item"><a href="javascript:;">查询文件内容</a></li>
-      <li class="layui-nav-item"><input placeholder="请输入搜索内容..."  id="queryValue"></li>
+      <li class="layui-nav-item"><a onclick="pageRoot()" href="javascript:;">文件名称搜索</a></li>
+      <li class="layui-nav-item"><input placeholder="请输入文件名称..."  id="pageRoot"></li>
+      <li class="layui-nav-item"><a onclick="pageRoot2()" href="javascript:;">查询文件内容</a></li>
+      <li class="layui-nav-item"><input placeholder="请输入搜索内容..."  id="pageRoot2"></li>
       <li class="layui-nav-item"><a href=""></a></li>
       <li class="layui-nav-item"><a onclick="page()" href="javascript:;">其它路径查询</a></li>
       <li class="layui-nav-item"><input placeholder="路径_例 c:/" value="c:/" id="pageUrl"></li>
@@ -47,6 +50,7 @@
         </dl>
       </li> 
                  暂时用不到20200418-->
+      <li class="layui-nav-item"><a id="lucenceUpdate"  href="javascript:;"></a></li>
       <li class="layui-nav-item"><a href="<%=basePath%>/begin">退出</a></li>
     </ul>
   </div>
@@ -91,6 +95,7 @@
     <div style="padding: 15px;" >
 	    
     	<div style="width: 100%;height: 100%;" id="mainBody">
+    		<div></div>
     	</div>
     </div>
   </div>
@@ -136,10 +141,58 @@ layui.use('element', function(){
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
+	pageBegin();
+	
+	setInterval(function(){ $("#lucenceUpdate").html("<%=request.getServletContext().getAttribute(Common.application)%>"); },3000);
 });
 var sp=null;
-//left panel
+//left root panel
+function pageBegin(){
+	 $.ajax({
+         url:"<%=basePath%>/page",
+         type:"GET",
+         //data:{ url: $("#pageUrl").val()},
+         contentType :"application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data){
+  			$("#roadPanel").html(data);
+         }
+	});
+}
+//1 lucence query
+function pageRoot(){
+	if($("#pageRoot").val().trim()==""){
+		return;
+	}
+	 $.ajax({
+        url:"<%=basePath%>/pageRoot",
+        type:"POST",
+        data:{ key: $("#pageRoot").val()},
+        contentType :"application/x-www-form-urlencoded; charset=utf-8",
+        success:function(data){
+ 			$("#mainBody").html(data);
+        }
+	});
+}
+//2 lucence query2
+function pageRoot2(){
+	if($("#pageRoot2").val().trim()==""){
+		return;
+	}
+	 $.ajax({
+        url:"<%=basePath%>/pageRoot",
+        type:"GET",
+        data:{ key: $("#pageRoot2").val()},
+        contentType :"application/x-www-form-urlencoded; charset=utf-8",
+        success:function(data){
+ 			$("#mainBody").html(data);
+        }
+	});
+}
+//3 left panel
 function page(url){
+	if($("#pageUrl").val().trim()==""){
+		return;
+	}
 	 $.ajax({
          url:"<%=basePath%>/page",
          type:"POST",
@@ -289,5 +342,6 @@ function queryload(url){
 			  }); 
 	 }
 }
+
 </script>
 </html>

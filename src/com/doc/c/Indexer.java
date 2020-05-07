@@ -1,6 +1,7 @@
 package com.doc.c;
 
 
+import java.io.File;
 import java.nio.file.Paths;
 
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
@@ -15,6 +16,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import com.doc.a.Common;
+import com.doc.a.FileReader;
 
 public class Indexer {
 	//Invalid
@@ -61,27 +63,83 @@ public class Indexer {
 		}
 		writer.close();
 	}
-	
+	/**
+	 * 文件名索引
+	 * @param indexDir
+	 * @param x1
+	 * @param x2
+	 * @throws Exception
+	 */
 	public void index(String indexDir,Object[] x1,Object[] x2)throws Exception{
 		dir = FSDirectory.open(Paths.get(indexDir));
 		IndexWriter writer = getWriter();
 		for(int i = 0;i<x1.length;i++){
+			System.out.println(i);
 			Document doc = new Document();
 //			doc.add(new IntField("id", ids[i], Field.Store.YES));
 			String a1=String.valueOf(x1[i]);
 			String a2=String.valueOf(x2[i]);
-			System.out.println(a1);
-			System.out.println(a2);
+			//System.out.println(a1);
+			//System.out.println(a2);
 			doc.add(new TextField(Common.FILENAME,a1 ,Field.Store.YES));
 			doc.add(new StringField(Common.FILEPATH,a2 , Field.Store.YES));
 			writer.addDocument(doc); // 添加文档
 		}
 		writer.close();
 	}
+	/**
+	 * 文件内容索引
+	 * @param indexDir
+	 * @param x1
+	 * @param x2
+	 * @throws Exception
+	 */
+	public void index2(String indexDir,Object[] x1,Object[] x2)throws Exception{
+		dir = FSDirectory.open(Paths.get(indexDir));
+		IndexWriter writer = getWriter();
+		for(int i = 0;i<x1.length;i++){
+			System.out.println("QUERY"+x2[i]+"--"+i);
+			Document doc = new Document();
+//			doc.add(new IntField("id", ids[i], Field.Store.YES));
+			String a1=String.valueOf(x1[i]);
+			String a2=String.valueOf(x2[i]);
+			if(FileReader.fileExt(a1)){
+				doc.add(new TextField(Common.FILENAME2,a1,Field.Store.YES));
+				doc.add(new TextField(Common.FILECONTEXT2,FileReader.readFromByteFile(a2),Field.Store.YES));
+				doc.add(new StringField(Common.FILEPATH2,a2 , Field.Store.YES));
+				writer.addDocument(doc); // 添加文档
+			}
+		}
+		writer.close();
+	}
 	
 	//Invalid
 	public static void main(String[] args) throws Exception {
-		new Indexer().index("D:\\lucene6");
+		//new Indexer().index("D:\\lucene6");
+		delete("d://lucence6");
 	}
-	
+	//文件内容清除
+	public static boolean delete(String path){
+        File file = new File(path);
+        if(!file.exists()){
+            return false;
+        }
+        if(file.isFile()){
+            return file.delete();
+        }
+        File[] files = file.listFiles();       
+        for (File f : files) {
+            if(f.isFile()){
+                if(!f.delete()){
+                    System.out.println(f.getAbsolutePath()+" delete error!");
+                    return false;
+                }
+            }else{
+                if(!delete(f.getAbsolutePath())){
+                    return false;
+                }
+            }
+        }
+        return file.delete();      
+    }
 }

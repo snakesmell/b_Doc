@@ -113,32 +113,32 @@ public class MineUtil {
 //                	if(file.getName().indexOf(fileName)!=-1){
 //                		
 //                	}
-//                	System.out.println(file.getName());
-//                    System.out.println(file.getAbsolutePath());
+                	System.out.println(file.getName());
+                	System.out.println(file.getAbsolutePath());
                 }
             }
         }
     }
     
-    public static void main(String[] args) {
-//    	String path="D://1.华高工作整理";
-    	String path="D://flyedt";
-    	try {
-    		List<String> listFileName=new ArrayList<String>();
-        	List<String> listFilePath=new ArrayList<String>();
-			listDirectoryAll(new File(path),listFileName,listFilePath);
-			System.out.println("listFileName:"+listFileName);
-			System.out.println("listFilePath:"+listFilePath);
-			
-			Object[] x1 = listFileName.toArray();
-			Object[] x2 = listFilePath.toArray();
-			new Indexer().index("D:\\lucene6",x1,x2);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//    public static void main(String[] args) {
+////    	String path="D://1.华高工作整理";
+//    	String path="D://flyedt";
+//    	try {
+//    		List<String> listFileName=new ArrayList<String>();
+//        	List<String> listFilePath=new ArrayList<String>();
+//			listDirectoryAll(new File(path),listFileName,listFilePath);
+//			System.out.println("listFileName:"+listFileName);
+//			System.out.println("listFilePath:"+listFilePath);
+//			
+//			Object[] x1 = listFileName.toArray();
+//			Object[] x2 = listFilePath.toArray();
+//			new Indexer().index("D:\\lucene6",x1,x2);
+//			
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
     
     
     public static void downLoad(String filePath, HttpServletRequest request, HttpServletResponse response, boolean isOnLine) throws Exception {
@@ -212,9 +212,9 @@ public class MineUtil {
         return response;
     }
     
-    public void download(){
-    	
-    }
+//    public void download(){
+//    	
+//    }
     public static void ShowImg(HttpServletRequest request,String path, HttpServletResponse response){
     	FileInputStream in;
 		response.setContentType("application/octet-stream;charset=UTF-8");

@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.doc.a.Common;
 import com.doc.a.MineUtil;
+import com.doc.c.Searcher;
+import com.doc.fileReader.DomReader;
 
 /**
  * Servlet implementation class page
@@ -35,7 +38,26 @@ public class page extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		StringBuilder html=new StringBuilder();
+		try {
+			String path=DomReader.domReader(Common.xmlRoot)+"/";
+			path=path.replaceAll("\\\\","/");
+			//System.out.println(path);
+			File file = new File(path);
+			List<File> list = MineUtil.listDirectory(file);
+			for (File file2 : list) {
+				if(file2.isDirectory()){//判断是否是文件夹	 onclick=query(\""+path+file2.getName()+"\")
+//					System.out.println(file2.getName());		onclick=\"query('"+path+file2.getName()+"')\"
+					html.append(" <li onclick=\"query('"+path+file2.getName()+"')\" class=\"layui-nav-item\"><a href=\"javascript:;\">"+file2.getName()+"</a></li>");
+				}					  
+			}
+			//new Thread(new LucenceThread(path,request)).start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	 	response.setCharacterEncoding("utf-8");  
+		PrintWriter writer = response.getWriter();
+		writer.print(html);
 	}
 
 	/**
@@ -45,6 +67,7 @@ public class page extends HttpServlet {
 		StringBuilder html=new StringBuilder();
 		try {
 			String path=request.getParameter("url")+"/";
+//			path=DomReader.domReader(Common.xmlRoot);
 			//System.out.println(path);
 			File file = new File(path);
 			List<File> list = MineUtil.listDirectory(file);

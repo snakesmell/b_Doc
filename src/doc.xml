@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doc>
-	<root>D:\1.华高工作整理\4.胶州交通新平台</root>
-	<lucence>d://lucence</lucence>
-	<password>admin123</password>
-	<lucenceSleep>1000000</lucenceSleep>
+	<root>D:\1.华高工作整理\3.胶州二期智能交通</root><!-- 文档根目录 -->
+	<lucence>d://lucence</lucence><!-- 索引文件存放路径 -->
+	<password>admin123</password><!-- 平台登录密码 -->
+	<lucenceSleep>30000000</lucenceSleep><!-- 索引更新时间 -->
+	<lucenceReturnSize>100</lucenceReturnSize><!-- 查询返回数量 -->
 </doc>

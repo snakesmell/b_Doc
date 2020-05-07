@@ -1,14 +1,21 @@
 package com.doc.c;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
 import com.doc.a.Common;
 import com.doc.fileReader.DomReader;
 
-public final class ServerStart {
-	static{
-		System.out.println(111);
-		//new Thread(new LucenceThread(DomReader.domReader(Common.xmlRoot))).start();
+public class ServerStart implements ServletContextListener {
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
-	public ServerStart() {
-		// TODO Auto-generated constructor stub
+	@Override
+	public void contextInitialized(ServletContextEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println(111);
+		new Thread(new LucenceThread(arg0,DomReader.domReader(Common.xmlRoot))).start();
 	}
 }
