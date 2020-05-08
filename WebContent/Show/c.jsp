@@ -13,12 +13,15 @@
   <script src="<%=basePath%>Static/js/jquery-3.4.1.min.js"></script>
   <script src="<%=basePath%>Static/js/hm.js"></script>
   <script src="<%=basePath%>Static/js/layer.js"></script>
+  <style type="text/css">
+  
+  </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-  <div class="layui-header">
+  <div class="layui-header" style="background-color: #00B1EE;border-bottom-color: white;border-bottom-width: 3px;border-bottom-style: solid;">
     <div class="layui-logo">
-    	<label style="font-size: 26px;color: #00BFFF;cursor: pointer;" onclick="pageBegin()">文件查阅平台</label>
+    	<label style="font-size: 26px;color: white;cursor: pointer;" onclick="pageBegin()">文件查阅平台</label>
     </div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
@@ -50,14 +53,14 @@
         </dl>
       </li> 
                  暂时用不到20200418-->
-      <li class="layui-nav-item"><a id="lucenceUpdate"  href="javascript:;"></a></li>
+      <!-- <li class="layui-nav-item"><a id="lucenceUpdate"  href="javascript:;"></a></li> -->
       <li class="layui-nav-item"><a href="<%=basePath%>/begin">退出</a></li>
     </ul>
   </div>
   
   <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
-      <ul id ="roadPanel" class="layui-nav layui-nav-tree layui-inline" style="margin-right: 10px;" lay-filter="demo">
+      <ul id ="roadPanel"  class="layui-nav layui-nav-tree layui-inline" style="margin-right: 10px;background-color:#00B1EE;" lay-filter="demo">
 		  <!-- <li class="layui-nav-item ">
 		    <a href="javascript:;">一级</a>
 		    <dl class="layui-nav-child">
@@ -87,7 +90,7 @@
       
     </div>
   </div>
-  <div class="layui-body">
+  <div class="layui-body" style="background-color: #F5F5F5;">
     <!-- 内容主体区域 -->
     <span class="layui-breadcrumb" l id="nav1" >
 		  <a href="/" id="tab1">首页</a>
@@ -99,7 +102,12 @@
     	</div>
     </div>
   </div>
-  <div class="layui-footer">
+  <div class="layui-footer" >
+  <input type="file" id="excel">
+  <button onclick="uploadCheck()">上传文件</button>
+  <input type="text" id="ddd" placeholder="输入文件夹名称...">
+  <button onclick="uploadCheck2()">创建文件夹</button>
+  <a style="float: right;" id="lucenceUpdate"  href="javascript:;"></a>
   <!--  <div class="layui-row">
     <div class="layui-col-xs6">
       12
@@ -286,9 +294,31 @@ function judgeImg(url){
 		//console.log("error");
 	}
 }
-
+//判断是否PDF
+function judgePdf(url){
+	//var url="d://用户目录/我的图片/2019-12-19-13-46-13-196-1384_format_f.JPEG";
+	var ext=url.split(".");
+	var ext_end=ext[ext.length-1].toLowerCase();
+	//console.log(ext_end);
+	var pattern="pdf";
+	var z=pattern.indexOf(ext_end,0);
+	//console.log(z);
+	if(z!=-1){
+		return true;
+		//console.log("success");
+	}else{
+		return false;
+		//console.log("error");
+	}
+}
 //查看
 function queryload(url){
+	//PDF文件查看
+	if(judgePdf(url)){
+		window.open("<%=basePath%>/Show/pdf.jsp?url="+url,"_blank","toolbar=no, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=800");
+		return;
+		<%-- $("#mainBody").html("<embed :src='<%=basePath%>/pdfShow?url='"+url+"' type='application/pdf' width='100%' height='100%'>"); --%>
+	}
 	//判断是否是图片
 	if(judgeImg(url)){
 		layer.open({
@@ -315,6 +345,7 @@ function queryload(url){
 		      $('#npcImg').attr('src','<%=basePath%>/download?url='+url);  
 		    }
 		  });
+		return;
 	 }
 	if(!judgeImg(url)){
 		 layer.open({
@@ -340,8 +371,26 @@ function queryload(url){
 			      layer.setTop(layero); //重点2
 			    }
 			  }); 
+		 return;
 	 }
 }
-
+/* 文件上传 */
+function uploadCheck(){
+    var formdata = new FormData();
+    var fileObj = $('#excel').get(0);
+    formdata.append("file", fileObj.files[0]);
+    $.ajax({
+        url: "<%=basePath%>/fileUpload",
+        type: 'post',
+        data: formdata,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+        }
+    });    
+    //$('#myModal').modal('hide');//close model
+}
 </script>
 </html>

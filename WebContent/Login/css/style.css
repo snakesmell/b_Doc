@@ -41,7 +41,7 @@ body{
 .main input[type="text"],.main input[type="password"]{
 	outline: none;
     border: 1px solid #FFF;
-    background: #fed2ed;
+    background: #8EE5EE;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -59,8 +59,8 @@ body{
 }
 .main input[type="submit"]{
 	outline:none;
-	border:1px solid #DBA9C8;
-	background:#b47c9f;
+	border:1px solid #8EE5EE;
+	background:#8EE5EE;
 	border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
@@ -68,14 +68,14 @@ body{
 	-ms-border-radius:5px;
 	padding:15px 10px;
 	width:100%;
-	color:#fdbfe6;
+	color:#00BFFF;
 	font-size:1.5em;
 	font-family: 'Syncopate', sans-serif;
 	cursor:pointer;
 }
 .main input[type="submit"]:hover{
-	background:#fed2ed;
-	color:#b47c9f;
+	background:#8EE5EE;
+	color:#8EE5EE;
 	border: 1px solid #FFF;
 }
 .footer{
@@ -84,14 +84,14 @@ body{
 }
 .footer p{
 	font-size:1em;
-	color:#B47C9F;
+	color:#8EE5EE;
 	margin:0;
 }
 .footer p a{
 	color:#fff;
 }
 .footer p a:hover{
-	color:#B47C9F;
+	color:#8EE5EE;
 }
 /*-- start-responsive-design --*/
 @media (max-width:1440px){
