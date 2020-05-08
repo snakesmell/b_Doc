@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doc>
-	<root>D:\1.华高工作整理\3.胶州二期智能交通</root><!-- 文档根目录 -->
+	<root>D:\1.华高工作整理</root><!-- 文档根目录 -->
 	<lucence>d://lucence</lucence><!-- 索引文件存放路径 -->
 	<password>admin123</password><!-- 平台登录密码 -->
 	<lucenceSleep>30000000</lucenceSleep><!-- 索引更新时间 -->

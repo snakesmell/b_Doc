@@ -19,7 +19,7 @@
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-  <div class="layui-header" style="background-color: #00B1EE;border-bottom-color: white;border-bottom-width: 3px;border-bottom-style: solid;">
+  <div class="layui-header" style="background-color:#1E90FF;border-bottom-color: white;border-bottom-width: 2px;border-bottom-style: solid;">
     <div class="layui-logo">
     	<label style="font-size: 26px;color: white;cursor: pointer;" onclick="pageBegin()">文件查阅平台</label>
     </div>
@@ -60,7 +60,7 @@
   
   <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
-      <ul id ="roadPanel"  class="layui-nav layui-nav-tree layui-inline" style="margin-right: 10px;background-color:#00B1EE;" lay-filter="demo">
+      <ul id ="roadPanel"  class="layui-nav layui-nav-tree layui-inline" style="margin-right: 10px;background-color:#1E90FF;" lay-filter="demo">
 		  <!-- <li class="layui-nav-item ">
 		    <a href="javascript:;">一级</a>
 		    <dl class="layui-nav-child">
@@ -149,11 +149,11 @@ layui.use('element', function(){
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-	pageBegin();
-	
-	setInterval(function(){ $("#lucenceUpdate").html("<%=request.getServletContext().getAttribute(Common.application)%>"); },3000);
+	pageBegin();//左侧菜单
 });
 var sp=null;
+//索引更新时间
+setInterval(function(){$("#lucenceUpdate").html("<%=request.getServletContext().getAttribute(Common.application)%>");},3000);
 //left root panel
 function pageBegin(){
 	 $.ajax({
