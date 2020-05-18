@@ -57,8 +57,8 @@
       <li class="layui-nav-item"><a href="<%=basePath%>/begin">退出</a></li>
     </ul>
   </div>
-  
-  <div class="layui-side layui-bg-black">
+  <!-- layui-bg-black -->
+  <div class="layui-side " style="background-color:#1E90FF;">
     <div class="layui-side-scroll">
       <ul id ="roadPanel"  class="layui-nav layui-nav-tree layui-inline" style="margin-right: 10px;background-color:#1E90FF;" lay-filter="demo">
 		  <!-- <li class="layui-nav-item ">
@@ -103,10 +103,13 @@
     </div>
   </div>
   <div class="layui-footer" >
+ 
   <input type="file" id="excel">
   <button onclick="uploadCheck()">上传文件</button>
-  <input type="text" id="ddd" placeholder="输入文件夹名称...">
-  <button onclick="uploadCheck2()">创建文件夹</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="text" id="mkdir" placeholder="输入文件夹名称...">
+  <button onclick="fileOper('create')">创建文件夹</button>
+
   <a style="float: right;" id="lucenceUpdate"  href="javascript:;"></a>
   <!--  <div class="layui-row">
     <div class="layui-col-xs6">
@@ -152,6 +155,7 @@ $(document).ready(function(){
 	pageBegin();//左侧菜单
 });
 var sp=null;
+var fileUploadPath="";
 //索引更新时间
 setInterval(function(){$("#lucenceUpdate").html("<%=request.getServletContext().getAttribute(Common.application)%>");},3000);
 //left root panel
@@ -213,6 +217,7 @@ function page(url){
 }
 //right panel
 function query(url){
+	 fileUploadPath=url;
 	 $.ajax({
          url:"<%=basePath%>/query",
          type:"POST",
@@ -374,23 +379,95 @@ function queryload(url){
 		 return;
 	 }
 }
+
+//文件删除
+function fileDelete(url){
+	layer.confirm('确定要删除吗？', {
+	  btn: ['确定','取消'] 
+	}, function(){
+		$.ajax({
+	        url:"<%=basePath%>/fileUpload",
+	        type:"GET",
+	        data:{ url:url,oper:'delete'},
+	        contentType :"application/x-www-form-urlencoded; charset=utf-8",
+	        success:function(data){
+	 			//console.log(data);
+	 			if(data==0){//操作失败
+	 				layer.msg("操作失败");
+	 			}
+				if(data==1){//操作成功
+					query(fileUploadPath);
+					layer.msg("操作成功");
+	 			}
+	        }
+		});
+	}, function(){});
+	 
+}
+
+//文件夹创建
+function fileOper(){
+	layer.confirm('确定要创建吗？', {
+		  btn: ['确定','取消'] 
+		}, function(){
+		 var dirname=$("#mkdir").val();//文件夹名称
+		 if(fileUploadPath==""||dirname==null||dirname==""){//空值判断
+		    	return;
+		 }
+		 $.ajax({
+	        url:"<%=basePath%>/fileUpload",
+	        type:"GET",
+	        data:{ url:fileUploadPath+"/"+dirname,oper:'create'},
+	        contentType :"application/x-www-form-urlencoded; charset=utf-8",
+	        success:function(data){
+	 			//console.log(data);
+	 			if(data==0){//操作失败
+	 				layer.msg("创建失败");
+	 			}
+				if(data==1){//操作成功
+					query(fileUploadPath);
+					layer.msg("创建成功");
+	 			}
+	        }
+		});
+	}, function(){});
+}
+
 /* 文件上传 */
 function uploadCheck(){
-    var formdata = new FormData();
-    var fileObj = $('#excel').get(0);
-    formdata.append("file", fileObj.files[0]);
-    $.ajax({
-        url: "<%=basePath%>/fileUpload",
-        type: 'post',
-        data: formdata,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (data) {
-        }
-    });    
-    //$('#myModal').modal('hide');//close model
+	layer.confirm('确定要上传吗？', {
+		  btn: ['确定','取消'] 
+		}, function(){
+		    var formdata = new FormData();
+		    var fileObj = $('#excel').get(0);
+		    if(fileUploadPath==""||fileObj==null){//空值判断
+		    	return;
+		    }
+		    formdata.append("file", fileObj.files[0]);
+		    formdata.append("filePath", fileUploadPath);
+		    $.ajax({
+		        url: "<%=basePath%>/fileUpload",
+		        type: 'post',
+		        data: formdata,
+		        cache: false,
+		        contentType: false,
+		        processData: false,
+		        //dataType: "json",
+		        success: function (data) {
+		        	//console.log(data);
+		        	if(data==1){//上传成功
+		        		query(fileUploadPath);
+		        		layer.msg('上传成功');
+		        	}
+		        	if(data==0){//上传成功
+		        		layer.msg('上传失败！');
+		        	}
+		        	if(data==2){//上传成功
+		        		layer.msg('失败,文件已存在！');
+		        	}
+		        }
+		    });    
+	}, function(){});
 }
 </script>
 </html>

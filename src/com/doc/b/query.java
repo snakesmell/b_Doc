@@ -81,6 +81,7 @@ public class query extends HttpServlet {
 			+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;update:"+currentTime+"</button>");
 			html.append("<button type=\"button\" onclick=\"queryload('"+url+f.getName()+"')\" style=\"border-right:0px;border-left:0px;margin-left:0px;margin-top: 5px;background-color:#E6E6FA;font-size: 14px;font-family:'黑体';\" class=\"layui-btn layui-btn-primary\">查看</button>");
 			html.append("<button type=\"button\" onclick=\"download('"+url+f.getName()+"')\" style=\"border-left:0px;border-right:0px;margin-top: 5px;font-size: 14px;background-color:#E6E6FA;font-family:'黑体';\" class=\"layui-btn layui-btn-primary\">下载</button>");
+			html.append("<button type=\"button\" onclick=\"fileDelete('"+url+f.getName()+"')\" style=\"border-left:0px;border-right:0px;margin-top: 5px;font-size: 14px;background-color:#EE2C2C;font-family:'黑体';\" class=\"layui-btn layui-btn-primary\">删除</button>");
 			html.append("<br>");
 			html.append("</div>");
 		}

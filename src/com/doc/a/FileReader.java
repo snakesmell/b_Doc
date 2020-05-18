@@ -81,4 +81,35 @@ public class FileReader {
 	    String str = new String(content);
 	    return str;
 	}
+	//文件夹创建
+	public static void makedir(String path){
+		File file=new File(path);
+		if(!file.exists()){//如果文件夹不存在
+			file.mkdir();//创建文件夹
+		}
+	}
+	//文件内容清除
+	public static boolean delete(String path){
+        File file = new File(path);
+        if(!file.exists()){
+            return false;
+        }
+        if(file.isFile()){
+            return file.delete();
+        }
+        File[] files = file.listFiles();       
+        for (File f : files) {
+            if(f.isFile()){
+                if(!f.delete()){
+                    System.out.println(f.getAbsolutePath()+" delete error!");
+                    return false;
+                }
+            }else{
+                if(!delete(f.getAbsolutePath())){
+                    return false;
+                }
+            }
+        }
+        return file.delete();      
+    }
 }

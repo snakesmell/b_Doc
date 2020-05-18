@@ -19,9 +19,19 @@ public class Common {
 	public static final String xmlPassword="password";
 	public static final String xmlLucenceSleep="lucenceSleep";
 	public static final String lucenceReturnSize="lucenceReturnSize";
+	public static final String lucenceStart="lucenceStart";
+	public static final String start="start";
+	public static final String fileUploadTemp="fileUploadTemp";
+	
+	public static final String DirectoryCreate="create";
+	public static final String FILEDelete="delete";
 	
 	public static final String application="application";
 	//索引文件格式
 	public static final String [] ext={"txt","js","java","xml"};
+	
+	public static final String type0="0";//操作失败
+	public static final String type1="1";//操作成功
+	public static final String type2="2";//文件重复
 }
 
