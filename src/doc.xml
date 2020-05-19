@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doc>
-	<root>D:\1.华高工作整理</root><!-- 文档根目录 -->
+	<root>C:\</root><!-- 文档根目录 -->
 	<lucenceStart>close</lucenceStart><!-- start启用Lucence,close关闭Lucence -->
 	<lucence>d://lucence</lucence><!-- 索引文件存放路径 -->
 	<fileUploadTemp>d://tmp</fileUploadTemp><!-- 文件上传临时路径 -->

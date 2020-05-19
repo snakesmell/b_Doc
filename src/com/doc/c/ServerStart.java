@@ -16,7 +16,7 @@ public class ServerStart implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 		if(DomReader.domReader(Common.lucenceStart).equals(Common.start)){
-			new Thread(new LucenceThread(arg0,DomReader.domReader(Common.xmlRoot))).start();
+			//new Thread(new LucenceThread(arg0,DomReader.domReader(Common.xmlRoot))).start();
 		}
 	}
 }

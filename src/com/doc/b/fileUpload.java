@@ -79,7 +79,7 @@ public class fileUpload extends HttpServlet {
 			FileItemFactory factory = new DiskFileItemFactory(sizeThreshold, repositoryFile);
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			upload.setHeaderEncoding("utf-8");	//设置字符编码
-			upload.setSizeMax(50 * 1024 * 1024); // set every upload file'size less than 50M
+			upload.setSizeMax(1024 * 1024 * 1024); // set every upload file'size less than 50M
 			List items = upload.parseRequest(request);   //这里开始执行上传
 			Iterator iter = items.iterator();
 			Iterator iter2 = items.iterator();
